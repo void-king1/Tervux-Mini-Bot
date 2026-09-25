@@ -19,7 +19,8 @@ const DEFAULT_CONFIG = {
     alwaysRecording: false,
     alwaysOnline: false,
     prefix: "!",
-    ownerNumber: ""
+    ownerNumber: "",
+    sudoNumbers: []
 };
 
 // Ensure auth directory exists
