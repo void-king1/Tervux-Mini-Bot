@@ -1,4 +1,4 @@
-import { default as makeWASocket, DisconnectReason, Browsers, useMultiFileAuthState } from "@whiskeysockets/baileys";
+import { default as makeWASocket, DisconnectReason, Browsers, useMultiFileAuthState, fetchLatestWaWebVersion } from "@whiskeysockets/baileys";
 import pino from "pino";
 import qrcode from "qrcode-terminal";
 import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync } from "fs";
@@ -83,10 +83,12 @@ export async function createWhatsAppClient() {
 
     console.log(`🔌 Creating WhatsApp socket...`);
 
-    const sock = makeWASocket({
+    const { version } = await fetchLatestWaWebVersion();
+
+const sock = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
-    version: [2, 3000, 1035008500],
+    version,
     browser: Browsers.ubuntu("Chrome"),
         syncFullHistory: false,
         defaultQueryTimeoutMs: 180000,
