@@ -1,4 +1,4 @@
-import { default as makeWASocket, DisconnectReason, useMultiFileAuthState, Browsers, delay } from "@whiskeysockets/baileys";
+import { default as makeWASocket, DisconnectReason, useMultiFileAuthState, Browsers, delay, fetchLatestWaWebVersion } from "@whiskeysockets/baileys";
 import pino from "pino";
 import { join } from "path";
 import { rmSync, mkdirSync, existsSync, readFileSync } from "fs";
@@ -40,10 +40,13 @@ export const startPairing = async (phoneNumber, method = "qr", socketId) => {
         const initializeSocket = async () => {
             console.log(`🔌 [${sessionId}] Initializing socket... (Attempt ${pairRetries + 1})`);
 
-            const sock = makeWASocket({
-                logger: pino({ level: "silent" }),
-                auth: state,
-                browser: Browsers.ubuntu("Chrome"),
+            const { version } = await fetchLatestWaWebVersion();
+
+const sock = makeWASocket({
+    logger: pino({ level: "silent" }),
+    auth: state,
+    version,
+    browser: Browsers.ubuntu("Chrome"),
                 printQRInTerminal: false,
                 markOnlineOnConnect: false,
                 generateHighQualityLinkPreview: false,
