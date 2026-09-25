@@ -84,9 +84,10 @@ export async function createWhatsAppClient() {
     console.log(`🔌 Creating WhatsApp socket...`);
 
     const sock = makeWASocket({
-        logger: pino({ level: "silent" }),
-        auth: state,
-        browser: Browsers.ubuntu("Chrome"),
+    logger: pino({ level: "silent" }),
+    auth: state,
+    version: [2, 3000, 1035008500],
+    browser: Browsers.ubuntu("Chrome"),
         syncFullHistory: false,
         defaultQueryTimeoutMs: 180000,
         keepAliveIntervalMs: 25000,
